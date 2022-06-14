@@ -3,7 +3,7 @@ from pathlib import Path
 from os.path import abspath, dirname
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = dirname(dirname(abspath(__file__)))
+BASE_DIR = dirname(dirname(dirname(abspath(__file__))))
 # dirname = 부모, abspath = 절대경로, __file__ = 현재 파일
 
 
