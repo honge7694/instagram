@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm as AuthPasswordChangeForm
 from .models import User
 
 
@@ -30,3 +30,29 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['avatar', 'first_name', 'last_name', 'website_url', 'bio', 'phone_number', 'gender']
+
+
+# 참고 : https://github.com/django/django/blob/main/django/contrib/auth/forms.py 
+class PasswordChangeForm(AuthPasswordChangeForm):
+    # 첫번째 비밀번호 변경 칸에 raise나타내는 방법
+    def clean_new_password1(self):
+        old_password = self.cleaned_data.get('old_password')
+        new_password1 = self.cleaned_data.get('new_password1')
+        # new_password2 = super().clean_new_password2()
+
+        if old_password and new_password1:
+            if old_password == new_password1:
+                raise forms.ValidationError("새로운 암호는 기존 암호와 다르게 입력해주세요.")
+
+            
+        return new_password1
+
+    # 두번째 비밀번호 변경 칸에 raise 나타내는 방법
+    def clean_new_password2(self):
+        old_password = self.cleaned_data.get('old_password')
+        new_password2 = super().clean_new_password2()
+
+        if old_password == new_password2:
+            raise forms.ValidationError("새로운 암호는 기존 암호와 다르게 입력해주세요.")
+
+        return new_password2
