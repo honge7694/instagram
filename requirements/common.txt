@@ -5,3 +5,4 @@ tzdata==2022.1
 django-bootstrap4
 django-pydenticon
 pillow
+easy-thumbnails
