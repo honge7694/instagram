@@ -9,6 +9,9 @@ class User(AbstractUser):
         MALE = "M", "남성" # 저장되는 값, 보여지는 값
         FEMALE = "F", "여성"
 
+    follower_set = models.ManyToManyField("self", blank=True, symmetrical=False, related_name="following_set")
+    # following_set = models.ManyToManyField("self", blank=True)
+
     @property
     def name(self):
         return f"{self.first_name} {self.last_name}"
