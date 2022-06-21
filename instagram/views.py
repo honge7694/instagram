@@ -1,15 +1,19 @@
+from datetime import timedelta
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from .forms import PostForm
 from .models import Post
 
 
 @login_required
 def index(request):
-    post_list = Post.objects.all().filter(Q(author__in=request.user.following_set.all()) | Q(author=request.user))
+    timesince = timezone.now() - timedelta(days=3) # 최근 시간 - 3일의 시간을 뺀 날짜
+
+    post_list = Post.objects.all().filter(Q(author__in=request.user.following_set.all()) | Q(author=request.user)).filter(created_at__gte=timesince)
     suggested_user_list = get_user_model().objects.all().exclude(pk=request.user.pk).exclude(pk__in=request.user.following_set.all())[:3]
 
     return render(request, "instagram/index.html", {
