@@ -15,10 +15,13 @@ def index(request):
 
     post_list = Post.objects.all().filter(Q(author__in=request.user.following_set.all()) | Q(author=request.user)).filter(created_at__gte=timesince)
     suggested_user_list = get_user_model().objects.all().exclude(pk=request.user.pk).exclude(pk__in=request.user.following_set.all())[:3]
+    
+    comment_form = CommentForm()
 
     return render(request, "instagram/index.html", {
         'suggested_user_list': suggested_user_list,
         'post_list': post_list,
+        'comment_form': comment_form,
     })
 
 
@@ -46,9 +49,11 @@ def post_new(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    comment_form = CommentForm()
 
     return render(request, "instagram/post_detail.html", {
-        "post": post
+        "post": post,
+        "comment_form": comment_form,
     })
 
 

@@ -3,11 +3,11 @@
         <img src="{{ suggested_user.avatar_url }}" alt="freind_user_avatar" style="width: 32px; height: 32px;" class="rounded-circle"/>
     </div>
     <div class="">
-        <a href="{% url 'instagram:user_page' suggested_user.username %}">
+        <a href="{% url 'instagram:user_page' suggested_user.username %}" style="color: inherit; text-decoration: none;">
             {{ suggested_user.username }}
         </a>
     </div>
     <div class="ms-auto">
-        <a href="{% url "user_follow" suggested_user.username %}">Follow</a>
+        <a href="{% url "user_follow" suggested_user.username %}" style="color: inherit; text-decoration: none;">Follow</a>
     </div>
 </div>
