@@ -1,0 +1,7 @@
+{% load humanize %}
+
+<div class="comment">
+    <a href="{% url 'instagram:user_page' comment.author %}" style="color: inherit; text-decoration: none;"><strong>{{ comment.author }}</strong></a>
+    {{ comment.message }}
+    <small>{{ comment.created_at|naturaltime }}</small>
+</div>

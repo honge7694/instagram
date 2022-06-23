@@ -91,6 +91,12 @@ def comment_new(request, post_pk):
             comment.author = request.user
             comment.save()
 
+            if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+                return render(request, 'instagram/_comment.html', {
+                    'comment': comment,
+                })
+
+
             return redirect(comment.post)
     else:
         form = CommentForm()
